@@ -29,11 +29,11 @@ do_mount() {
     LABEL=${ID_FS_LABEL}
     if [[ -z "${LABEL}" ]]; then
         LABEL=${DEVBASE}
-    elif /bin/grep -q "/home/pi/gcode_files/${LABEL} " /etc/mtab; then
+    elif /bin/grep -q "/home/rock/gcode_files/${LABEL} " /etc/mtab; then
 # Если точка монтирования уже существует изменяем имя:
         LABEL+="-${DEVBASE}"
     fi
-MOUNT_POINT="/home/pi/gcode_files/${LABEL}"
+MOUNT_POINT="/home/rock/gcode_files/${LABEL}"
      echo "Точка монтирования: ${MOUNT_POINT}"
     /bin/mkdir -p ${MOUNT_POINT}
 
@@ -63,7 +63,7 @@ do_unmount() {
     fi
 
 # Удаление пустых каталогов
-    for f in /home/pi/gcode_files/* ; do
+    for f in /home/rock/gcode_files/* ; do
         if [[ -n $(/usr/bin/find "$f" -maxdepth 0 -type d -empty) ]]; then
             if ! /bin/grep -q " $f " /etc/mtab; then
                 echo "**** Удаление точки монтирования $f"
