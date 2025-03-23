@@ -33,7 +33,7 @@ do_mount() {
 # Если точка монтирования уже существует изменяем имя:
         LABEL+="-${DEVBASE}"
     fi
-MOUNT_POINT="/home/pi/printer_data/gcodes/${LABEL}"
+MOUNT_POINT="/home/pi/printer_data/gcodes/USB-${LABEL}"
      echo "Точка монтирования: ${MOUNT_POINT}"
     /bin/mkdir -p ${MOUNT_POINT}
 
