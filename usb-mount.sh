@@ -42,7 +42,7 @@ MOUNT_POINT="/home/pi/printer_data/gcodes/${LABEL}"
 
 # Специфические опции монтирования:
     if [[ ${ID_FS_TYPE} == "vfat" ]]; then
-        OPTS+=",users,gid=100,umask=000,shortname=mixed,utf8=1,flush"
+        OPTS+=",users,gid=pi,uid=pi,umask=000,shortname=mixed,utf8=1,flush"
     fi
 
     if ! /bin/mount -o ${OPTS} ${DEVICE} ${MOUNT_POINT}; then
