@@ -29,11 +29,11 @@ do_mount() {
     LABEL=${ID_FS_LABEL}
     if [[ -z "${LABEL}" ]]; then
         LABEL=${DEVBASE}
-    elif /bin/grep -q "/home/rock/gcode_files/${LABEL} " /etc/mtab; then
+    elif /bin/grep -q "/home/rock/printer_data/gcodes/${LABEL} " /etc/mtab; then
 # Если точка монтирования уже существует изменяем имя:
         LABEL+="-${DEVBASE}"
     fi
-MOUNT_POINT="/home/rock/gcode_files/${LABEL}"
+MOUNT_POINT="/home/rock/printer_data/gcodes/${LABEL}"
      echo "Точка монтирования: ${MOUNT_POINT}"
     /bin/mkdir -p ${MOUNT_POINT}
 
@@ -42,7 +42,7 @@ MOUNT_POINT="/home/rock/gcode_files/${LABEL}"
 
 # Специфические опции монтирования:
     if [[ ${ID_FS_TYPE} == "vfat" ]]; then
-        OPTS+=",users,gid=100,umask=000,shortname=mixed,utf8=1,flush"
+        OPTS+=",users,gid=rock,uid=rock,umask=000,shortname=mixed,utf8=1,flush"
     fi
 
     if ! /bin/mount -o ${OPTS} ${DEVICE} ${MOUNT_POINT}; then
@@ -63,7 +63,7 @@ do_unmount() {
     fi
 
 # Удаление пустых каталогов
-    for f in /home/rock/gcode_files/* ; do
+    for f in /home/rock/printer_data/gcodes/* ; do
         if [[ -n $(/usr/bin/find "$f" -maxdepth 0 -type d -empty) ]]; then
             if ! /bin/grep -q " $f " /etc/mtab; then
                 echo "**** Удаление точки монтирования $f"
